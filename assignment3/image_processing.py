@@ -1,6 +1,7 @@
 #Name: Steve Chen
 #ID: 261106847
 
+import os
 def is_valid_image(image):
     """(list) -> bool
     Takes a nested list returns whether the list is a valid PGM matrix
@@ -52,15 +53,24 @@ def load_regular_image(filename):
     Takes a filename and converts it into a an image matrix
 
     """
-    filename = 'comp.pgm'
-    fobj = open(filename, "r")
-    content = fobj.read()
+    mylist = []
+    c = open(filename, "r")
+    """ content = fobj.read()
     if not is_valid_compressed_image(content) or not is_valid_image(content):
         raise ValueError("The image is not in valid PGM format")
-    print(content)
+    for i in range(len(content)):
+        mylist.append(content[i])
     fobj.close()
+    return mylist"""
+    
+
 
 load_regular_image("comp.pgm")
+#load_regular_image("another.py")
+#load_regular_image("dragon.pgm")
+
+
+#open("lol.txt", 'w')
 
 if __name__ == "__main__":
     import doctest
