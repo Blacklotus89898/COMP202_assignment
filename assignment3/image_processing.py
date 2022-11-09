@@ -1,7 +1,6 @@
 #Name: Steve Chen
 #ID: 261106847
 
-
 def is_valid_image(image):
     """(list) -> bool
     Takes a nested list returns whether the list is a valid PGM matrix
@@ -48,7 +47,13 @@ def is_valid_compressed_image(compressed_image):
             return False
     return True
 
+def load_regular_image(filename):
+    """(str)->list
+    Takes a filename and converts it into a an image matrix
 
+    """
+    content = open(filename, "r")
+    if content != valid
 
 
 
