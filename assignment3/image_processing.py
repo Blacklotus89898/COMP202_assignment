@@ -52,12 +52,15 @@ def load_regular_image(filename):
     Takes a filename and converts it into a an image matrix
 
     """
-    content = open(filename, "r")
-    if content != valid
+    filename = 'comp.pgm'
+    fobj = open(filename, "r")
+    content = fobj.read()
+    if not is_valid_compressed_image(content) or not is_valid_image(content):
+        raise ValueError("The image is not in valid PGM format")
+    print(content)
+    fobj.close()
 
-
-
-
+load_regular_image("comp.pgm")
 
 if __name__ == "__main__":
     import doctest
