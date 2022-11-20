@@ -1,7 +1,6 @@
 #Name: Steve Chen
 #ID: 261106847
 
-
 def is_valid_image(image):
     """(list) -> bool
     Takes a nested list returns whether the list is a valid PGM matrix
@@ -21,11 +20,9 @@ def is_valid_image(image):
                 return False
     return True
 
-#print(is_valid_image([[1,2,3],[4,5,6],[7,8,2]]))
-
 def is_valid_compressed_image(compressed_image):
     """(list)->bool
-    Takes a nested list and returns if the list is a valid compressed PGM matrix
+    Takes a nested list and return if the list is a compressed PGM matrix
     >>> is_valid_compressed_image([["0x5","200x2"],["111x7"]])
     True
     >>> is_valid_compressed_image([[1,2,3],[4,5,6],[7,8,9]])
@@ -41,18 +38,8 @@ def is_valid_compressed_image(compressed_image):
                 return False
 
             string_list = compressed_image[row][element].split("x")
-
-            for i in range(len(string_list[0])):
-                if string_list[0][i] not in "0123456789":
-                    return False 
             
-            for j in range(len(string_list[1])):
-                if string_list[1][j] not in "0123456789":
-                    return False 
-
             if float(string_list[0]) < 0 or float(string_list[0]) > 255:
-                return False
-            elif int(string_list[1]) < 0:
                 return False
 
             sum_B += float(string_list[1]) 
@@ -62,10 +49,6 @@ def is_valid_compressed_image(compressed_image):
         elif sum_B != current_sum_B:
             return False
     return True
-   
-    
-#print(is_valid_compressed_image([["0x5","200x2"],["111x7"]]))
-
 
 def load_regular_image(filename):
     """(str)->list
@@ -74,22 +57,21 @@ def load_regular_image(filename):
     Returns an image matrix
     >>> load_regular_image("try.txt")
     Traceback (most recent call last):
-     ...
-    AssertionError: The format is not in valid P2 PGM
+    ...
+    AssertionError: The format is not in valid PGM
     >>> load_regular_image("comp.pgm")
     [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 51, 51, 51, 51, 51, 0, 119, 119, 119, 119, 119, 0, 187, 187, 187, 187, 187, 0, 255, 255, 255, 255, 0], [0, 51, 0, 0, 0, 0, 0, 119, 0, 0, 0, 119, 0, 187, 0, 187, 0, 187, 0, 255, 0, 0, 255, 0], [0, 51, 0, 0, 0, 0, 0, 119, 0, 0, 0, 119, 0, 187, 0, 187, 0, 187, 0, 255, 255, 255, 255, 0], [0, 51, 0, 0, 0, 0, 0, 119, 0, 0, 0, 119, 0, 187, 0, 187, 0, 187, 0, 255, 0, 0, 0, 0], [0, 51, 51, 51, 51, 51, 0, 119, 119, 119, 119, 119, 0, 187, 0, 187, 0, 187, 0, 255, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    >>> 
     """
     new_matrix_list = []
     fobj = open(filename, "r")
     content = fobj.read()
     content_list = content.split('\n')
     if content_list[0] != 'P2':
-        raise AssertionError("The format is not in valid P2 PGM")
+        raise AssertionError("The format is not in valid PGM")
     k = content_list[1].split(' ')
     width = float(k[0])
     height = float(k[1])
-    #max_white_value = float(content_list[2])
+    
     matrix_list = content_list[3:]
 
     for row in range(int(height)):
@@ -97,34 +79,13 @@ def load_regular_image(filename):
         for j in range(int(width)):
             n[j] = int(n[j])
         new_matrix_list.append(n)
+
     if not is_valid_image(new_matrix_list):
         raise AssertionError("The format is not in valid PGM")
+
     fobj.close()
     return(new_matrix_list) 
         
-    #print(new_matrix_list)
-"""   for row in range(height):  
-        for element in range(width):
-        image_matrix = image_matrix.append()
-"""
-"""for line in fobj:
-        print(line.strip("\n"))"""
-    #fobj.close()
-
-    #print(content)
-""" content = fobj.read()
-    if not is_valid_compressed_image(content) or not is_valid_image(content):
-        raise ValueError("The image is not in valid PGM format")
-    for i in range(len(content)):
-        mylist.append(content[i])
-    fobj.close()
-    return mylist"""
-    
-
-
-#load_regular_image("comp.pgm")
-#print(load_regular_image("try.txt"))
-#(load_regular_image("dragon.pgm"))
 
 def load_compressed_image(filename):
     """(str)->list
@@ -139,8 +100,6 @@ def load_compressed_image(filename):
     Traceback (most recent call last):
      ...
     AssertionError: The dimension is incorrect
-    >>> load_compressed_image("comp.pgm.compressed")
-    [['0x24'], ['0x1', '51x5', '0x1', '119x5', '0x1', '187x5', '0x1', '255x4', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x2', '255x1', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x4', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x4'], ['0x1', '51x5', '0x1', '119x5', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x4'], ['0x24']]
     """
     new_matrix_list = []
     fobj = open(filename, "r")
@@ -153,25 +112,22 @@ def load_compressed_image(filename):
     height = int(k[1])
     #max_white_value = float(content_list[2])
     matrix_list = content_list[3:]
-    
+    #raise error
+
     if len(matrix_list) < height:
         raise AssertionError("The dimension is incorrect")
-
     for row in range(int(height)):
 
         line = matrix_list[row].split()
-        if line.count("x") > 1*width or line.count("x") == 0 :
-            raise AssertionError("Wrong pixel number")
+        if line.count("x") > 1*width:
+            raise AssertionError("Too many x pixels")
         new_matrix_list.append(line)
     if not is_valid_compressed_image(new_matrix_list):         
         raise AssertionError("The format is not in valid compressed PGM")
     fobj.close()
-    return(new_matrix_list)
+    return(new_matrix_list)#convert to return
 
-fobj = open("invalid.pgm","w")
-fobj.write("P2C\\n30 5\\n255\\nabc3x23 0x0x07\\n")
 print(load_compressed_image("comp.pgm.compressed"))
-
 """fobj = open("invalid.pgm","w")
 fobj.write("P2C\n30 5\n255\nabc3x23 0x0x07\n")
 fobj.close()
@@ -182,16 +138,10 @@ for line in fobj:
 print(c)
 fobj.close()"""
 #load_compressed_image("invalid.pgm")
-#print(load_compressed_image("try.txt"))
+#load_compressed_image("try.txt")
 
 def load_image(filename):
-    """(str)-> list
-    Takes a filename to return an image matrix of the file
-    >>> load_image("comp.pgm.compressed")
-    [['0x24'], ['0x1', '51x5', '0x1', '119x5', '0x1', '187x5', '0x1', '255x4', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x2', '255x1', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x4', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x4'], ['0x1', '51x5', '0x1', '119x5', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x4'], ['0x24']]
-    >>> load_image("comp.pgm")
-    [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 51, 51, 51, 51, 51, 0, 119, 119, 119, 119, 119, 0, 187, 187, 187, 187, 187, 0, 255, 255, 255, 255, 0], [0, 51, 0, 0, 0, 0, 0, 119, 0, 0, 0, 119, 0, 187, 0, 187, 0, 187, 0, 255, 0, 0, 255, 0], [0, 51, 0, 0, 0, 0, 0, 119, 0, 0, 0, 119, 0, 187, 0, 187, 0, 187, 0, 255, 255, 255, 255, 0], [0, 51, 0, 0, 0, 0, 0, 119, 0, 0, 0, 119, 0, 187, 0, 187, 0, 187, 0, 255, 0, 0, 0, 0], [0, 51, 51, 51, 51, 51, 0, 119, 119, 119, 119, 119, 0, 187, 0, 187, 0, 187, 0, 255, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    >>> 
+    """
     """
     fobj = open(filename, "r")
     content = fobj.read()
@@ -203,7 +153,8 @@ def load_image(filename):
     else:
         raise AssertionError("The file is not a PGM or compressed PGM")
 
-#print(load_image("comp.pgm"))
+#load_image("comp.pgm.compressed")
+#load_image("invalid.pgm")
 
 
 def save_regular_image(matrix_list, filename):
@@ -249,10 +200,9 @@ def save_regular_image(matrix_list, filename):
     fobj.write(str(max_white_value)+"\n")
     fobj.write(newline)
     fobj.close()
-    return
 
 
-#print(save_regular_image([[2]*5, [3]*5], "test.pgm"))
+#save_regular_image([[2]*5, [3]*5], "test.pgm")
 """image = [[2]*5, [3]*5]
 save_regular_image([[2]*5, [3]*5], "test.pgm")
 fobj = open("test.pgm", 'r')
@@ -377,7 +327,6 @@ def flip_vertical(matrix_list):
         print("Bad matrix")
         #call a validity function that detects the error
     new_matrix = []
-    #[::-1]
     for row in range(len(matrix_list)):
         new_matrix.append(matrix_list[-row-1])
     return new_matrix
@@ -396,7 +345,7 @@ def crop(matrix_list, j, i, height, width):
     
     """
     if not is_valid_image(matrix_list):
-        raise AssertionError("Invalid matrix")
+        print("Bad matrix")
         #call a validity function that detects the error
     new_matrix = []
     for row in range(height):
@@ -415,16 +364,10 @@ def find_end_of_repetition(my_list,index, target):
     >>> find_end_of_repetition([1, 2, 3, 4, 5, 6, 7], 6, 7)
     6
     """
-    count = 0
     while index < len(my_list) and my_list[index] == target:
         index +=1
-        count +=1
-        if count > len(my_list):
-            return len(my_list)-1
-
     return index-1
 
-    
 
 def compress(matrix_list):
     """(list)->list
@@ -445,10 +388,8 @@ def compress(matrix_list):
             index = ending_index+1
 
         compressed_list.append(line)
-
+    #print(compressed_list)
     return(compressed_list)
-
-
 
 def decompress(compressed_list):
     """(list)-> list
@@ -469,20 +410,16 @@ def decompress(compressed_list):
             for repeat in range(int(pixel[1])):
                 line.append(int(pixel[0]))
         matrix_list.append(line)
-
+    #print(matrix_list) 
     return matrix_list
 
 def process_command(cmd_str):
-    """(str)-> Nonetype
+    """
     
     >>> process_command("LOAD<comp.pgm> CP DC INV INV SAVE<comp2.pgm>")
     >>> image = load_image("comp.pgm")
     >>> image2 = load_image("comp2.pgm")
     >>> image == image2
-    True
-    >>> process_command("LOAD<comp.pgm> CP SAVE<comp.pgm.compressed>")
-    >>> load_compressed_image("comp.pgm.compressed")
-    [['0x24'], ['0x1', '51x5', '0x1', '119x5', '0x1', '187x5', '0x1', '255x4', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x2', '255x1', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x4', '0x1'], ['0x1', '51x1', '0x5', '119x1', '0x3', '119x1', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x4'], ['0x1', '51x5', '0x1', '119x5', '0x1', '187x1', '0x1', '187x1', '0x1', '187x1', '0x1', '255x1', '0x4'], ['0x24']]
     """
     cmd = cmd_str.split(" ")
     for element in cmd:
@@ -490,7 +427,7 @@ def process_command(cmd_str):
             mylist = element.split("<")
             filename = mylist[1][:-1]
             #filename = element[element.find("<")+1:element.find(">")]
-            matrix_list = load_image(filename)
+            matrix_list =load_image(filename)
 
         elif 'SAVE' in element:
             mylist = element.split("<")
@@ -521,14 +458,15 @@ def process_command(cmd_str):
 #print(compress(load_image('comp.pgm')), 'comp.pgm.compressed')
 
 #process_command("LOAD<comp.pgm> CP SAVE<comp.pgm.compressed>")
-#print(compress(load_image('comp.pgm')))
+#print(save_compressed_image(compress(load_image('comp.pgm')), 'comp.pgm.compressed'))
 #print(load_compressed_image("comp.pgm.compressed"))
 
 
 
 
-
-"""if __name__ == "__main__":
+"""
+if __name__ == "__main__":
     import doctest
     doctest.testmod()
+
 """
